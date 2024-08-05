@@ -1,5 +1,6 @@
 "use client";
 import Input from "@/components/Input";
+import axios from "axios";
 import { register } from "module";
 import React, { useCallback, useState } from "react";
 
@@ -14,6 +15,18 @@ const Auth = () => {
       currentVariant === "login" ? "register" : "login"
     );
   }, []);
+
+  const register = useCallback(() => {
+    try {
+      axios.post("/api/register", {
+        email,
+        username,
+        password,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, [email,username,password]);
 
   return (
     <div className="relative h-full w-full bg-[url('/images/netflix.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
@@ -53,7 +66,7 @@ const Auth = () => {
                 type="password"
               />
             </div>
-            <button className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition">
+            <button className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition" onClick={register}>
               {variant === "login" ? "Sign Up" : "Sign In"}
             </button>
             <div className="flex flex-col items-center justify-center">
